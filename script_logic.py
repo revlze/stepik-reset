@@ -19,10 +19,10 @@ class StepikReset:
     логин и название курса для которого необходимо сбросить прогресс. Логика скрипта реализована в методе "progress_reset".
     """
 
-    LOGIN_PAGE = "https://stepik.org/catalog?auth=login"
+    LOGIN_PAGE = "https://stepik.org/learn/courses?auth=login"
 
     # options = webdriver.ChromeOptions()
-    # options.add_argument('google-chrome')
+    # options.add_argument('maxi')
     # options.add_argument('--headless')
 
     def __init__(self, login: str, password: str, course: str) -> None:
@@ -31,8 +31,9 @@ class StepikReset:
         self.course = course
 
     def progress_reset(self) -> None:
-        with webdriver.Chrome(options=webdriver.ChromeOptions().add_argument('google-chrome')) as driver:
+        with webdriver.Chrome() as driver:
             driver.get(url=self.LOGIN_PAGE)
+            driver.maximize_window()
 
             '''авторизация'''
             try:
@@ -44,10 +45,10 @@ class StepikReset:
                 print('Сервера Stepik в данный момент недоступны, попробуйте позже')
                 exit()
 
-            '''поиск нужного курса'''
-            WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.XPATH, '//button[text()="Понятно"]'))).click()
-            WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.ID, 'ember445'))).click()
-            WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.XPATH, '//span[text()="Прохожу"]'))).click()
+            # '''поиск нужного курса'''
+            # WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.XPATH, '//button[text()="Понятно"]'))).click()
+            # WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.ID, "ember445"))).click()
+            # WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.XPATH, '//span[text()="Прохожу"]'))).click()
 
             for _ in range(100):
                 try:
