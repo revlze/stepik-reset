@@ -1,6 +1,6 @@
 # Hey! Insturction.
 
-## tested only on linux
+## tested only on archlinux
 
 u need to install: python3.10 and google-chrome.
 
