@@ -13,7 +13,7 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-### GO
+### RUN!
 run script!
 ```bash
 python main.py
