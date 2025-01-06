@@ -2,7 +2,11 @@
 
 ## tested only on archlinux
 
-U need to install: python3.10 and google-chrome.
+### Preparation
+<ul>
+<li>python=3.10 version</li>
+<li>google-chrome=any version</li>
+</ul>
 
 And in your stepik account, set language to Russian.
 
