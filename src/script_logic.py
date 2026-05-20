@@ -35,14 +35,19 @@ class StepikReset:
             driver.get(url=self.LOGIN_PAGE)
             driver.maximize_window()
 
-            '''авторизация'''
+            """авторизация"""
             try:
-                WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.ID, 'id_login_email'))).send_keys(self.login)
-                WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.ID, 'id_login_password'))).send_keys(
-                    self.password)
-                WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.XPATH, '//button[text()="Войти"]'))).click()
+                WebDriverWait(driver, 60).until(
+                    EC.element_to_be_clickable((By.ID, "id_login_email"))
+                ).send_keys(self.login)
+                WebDriverWait(driver, 60).until(
+                    EC.element_to_be_clickable((By.ID, "id_login_password"))
+                ).send_keys(self.password)
+                WebDriverWait(driver, 60).until(
+                    EC.element_to_be_clickable((By.XPATH, '//button[text()="Войти"]'))
+                ).click()
             except Exception:
-                print('Сервера Stepik в данный момент недоступны, попробуйте позже')
+                print("Сервера Stepik в данный момент недоступны, попробуйте позже")
                 exit()
 
             # '''поиск нужного курса'''
@@ -53,43 +58,67 @@ class StepikReset:
             for _ in range(100):
                 try:
                     WebDriverWait(driver, 10).until(
-                        EC.element_to_be_clickable((By.XPATH, f'''//a[text()='{self.course}']'''))).click()
+                        EC.element_to_be_clickable(
+                            (By.XPATH, f"""//a[text()='{self.course}']""")
+                        )
+                    ).click()
                     break
                 except Exception:
                     driver.execute_script("window.scrollBy(0, 6000)")
             else:
-                print('Введеный курс не найден. Проверьте его наличие в вашей библиотеке курсов.')
+                print(
+                    "Введеный курс не найден. Проверьте его наличие в вашей библиотеке курсов."
+                )
                 exit()
 
-            '''сброс прогресса'''
+            """сброс прогресса"""
             WebDriverWait(driver, 60).until(
-                EC.element_to_be_clickable((By.XPATH, '//a[@class="lesson-widget__title-text"]'))).click()
+                EC.element_to_be_clickable(
+                    (By.XPATH, '//a[@class="lesson-widget__title-text"]')
+                )
+            ).click()
 
             while True:
                 try:
                     next_step = WebDriverWait(driver, 60).until(
-                        EC.element_to_be_clickable((By.XPATH, '//span[text()="Следующий шаг"]')))
+                        EC.element_to_be_clickable(
+                            (By.XPATH, '//span[text()="Следующий шаг"]')
+                        )
+                    )
                 except Exception:
-                    print('Программа успешно завершена, прогресс курса сброшен.')
+                    print("Программа успешно завершена, прогресс курса сброшен.")
                     break
 
                 try:
-                    it_is_question = WebDriverWait(driver, 0.5, poll_frequency=0.01).until(
-                        EC.element_to_be_clickable((By.XPATH, '//h3[@class="quiz__typename"]')))
+                    it_is_question = WebDriverWait(
+                        driver, 0.5, poll_frequency=0.01
+                    ).until(
+                        EC.element_to_be_clickable(
+                            (By.XPATH, '//h3[@class="quiz__typename"]')
+                        )
+                    )
                 except Exception:
                     it_is_question = None
 
                 if it_is_question:
                     try:
-                        it_is_decided = WebDriverWait(driver, 0.5, poll_frequency=0.01).until(
-                            EC.element_to_be_clickable((By.XPATH, '//button[text()="Отправить"]')))
+                        it_is_decided = WebDriverWait(
+                            driver, 0.5, poll_frequency=0.01
+                        ).until(
+                            EC.element_to_be_clickable(
+                                (By.XPATH, '//button[text()="Отправить"]')
+                            )
+                        )
                     except:
                         it_is_decided = None
 
                 if it_is_question and not it_is_decided:
                     try:
                         WebDriverWait(driver, 1.5, poll_frequency=0.01).until(
-                            EC.element_to_be_clickable((By.XPATH, '//button[@class="again-btn white"]'))).click()
+                            EC.element_to_be_clickable(
+                                (By.XPATH, '//button[@class="again-btn white"]')
+                            )
+                        ).click()
 
                     except:
                         pass
@@ -98,11 +127,16 @@ class StepikReset:
                     next_step.click()
                 except:
                     try:
-                        WebDriverWait(driver, 0.5, poll_frequency=0.01).until(EC.element_to_be_clickable((By.XPATH,
-                            '//a[text()="Найти новый курс"]')))
-                        print('Программа успешно завершена, прогресс курса сброшен.')
+                        WebDriverWait(driver, 0.5, poll_frequency=0.01).until(
+                            EC.element_to_be_clickable(
+                                (By.XPATH, '//a[text()="Найти новый курс"]')
+                            )
+                        )
+                        print("Программа успешно завершена, прогресс курса сброшен.")
                         break
                     except:
                         pass
-                    print('Что-то пошло не так, прогресс курса не был сброшен до конца.')
+                    print(
+                        "Что-то пошло не так, прогресс курса не был сброшен до конца."
+                    )
                     exit()
