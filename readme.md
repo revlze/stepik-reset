@@ -1,24 +1,50 @@
-# Hey! Insturction.
+# stepik-reset
 
-## tested only on archlinux
+Скрипт автоматически сбрасывает прогресс пройденного курса на [Stepik](https://stepik.org): логинится в аккаунт, открывает указанный курс и последовательно прокликивает "Следующий шаг" по всем урокам, нажимая "Решить заново" на пройденных заданиях. Для меньшего риска блокировки браузерная сессия имитирует поведение человека — случайные движения мыши, прокрутку и набор текста в комментариях.
 
-### Preparation
-<ul>
-<li>python=3.10 version</li>
-<li>google-chrome=any version</li>
-</ul>
+В аккаунте Stepik интерфейс должен быть на русском (кнопки ищутся по тексту).
 
-And in your stepik account, set language to Russian.
+## Установка
 
-### Install dependencies
-I highly recommend to work with a venv or conda to avoid issues.
+Нужен [uv](https://docs.astral.sh/uv/) и Python 3.14+.
+
 ```bash
-pip install --upgrade pip
-pip install -r requirements.txt
+uv sync --frozen # из uv.lock устанавливаются зависимости
+uv run playwright install chromium
 ```
 
-### RUN!
-run script!
+или 
+
+```bash
+python -m venv .venv
+source .venv/bin/activate  # Linux/MacOS
+.venv\Scripts\activate  # Windows
+pip install -r requirements.txt
+playwright install chromium
+```
+
+## Настройка
+
+```
+cp .env.example .env
+```
+
+`COURSE_ID` принимает либо полную ссылку на курс, либо его числовой ID.
+
+## Запуск
+
+```bash
+uv run python main.py
+```
+
+или 
+
 ```bash
 python main.py
 ```
+
+Откроется окно Chromium — закрывать его вручную не нужно, скрипт сам завершит работу, когда дойдёт до конца курса.
+
+## Важные замечания
+
+Так как скрипт прокликивает все уроки, то непройденные задания будут отмечены как пройденные. Позже добавлю возможность останваливаться на каком-то конкретном уроке, чтобы не портить прогресс. Поэтому сейчас рекомендуется использовать скрипт только для курсов, которые уже полностью пройдены или вручную останвливать скрипт на нужном уроке.
