@@ -1,4 +1,4 @@
-from script_logic import StepikReset
+from src.script_logic import StepikReset
 
 login = input('Введите логин аккаунт Stepik: ')
 password = input('Введите пароль аккаунт Stepik: ')
