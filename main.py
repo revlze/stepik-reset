@@ -17,7 +17,7 @@ load_dotenv()
 
 login = _required("LOGIN")
 password = _required("PASSWORD")
-course_name = _required("COURSE")
+course_name = _required("COURSE_ID")
 
 if __name__ == "__main__":
     stepik_reset = StepikReset(login=login, password=password, course=course_name)
