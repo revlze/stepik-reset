@@ -1,10 +1,20 @@
+from dotenv import load_dotenv
+import os
+
 from src.script_logic import StepikReset
 
-login = input('Введите логин аккаунт Stepik: ')
-password = input('Введите пароль аккаунт Stepik: ')
-course_name = input('Введите название курса для которого вы желаете сбросить прогресс: ')
+def _required(name: str) -> str:
+    value = os.getenv(name)
+    if not value:
+        raise ValueError(f'Переменная окружения {name} не найдена! Проверьте наличие файла .env и его содержимое!')
+    return value
+    
 
+load_dotenv()
 
+login = _required('LOGIN')
+password = _required('PASSWORD')
+course_name = _required('COURSE')
 
 if __name__ == '__main__':
     stepik_reset = StepikReset(login=login, password=password, course=course_name)
